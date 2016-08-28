@@ -7,7 +7,7 @@
         android:password="true"
         android:summary="@string/summaryPassword"
         android:key="password"></EditTextPreference>
-    <EditTextPreference android:title="@titleApiRoot"
+    <EditTextPreference android:title="@string/titleApiRoot"
         android:summary="@string/summaryApiRoot"
         android:key="apiRoot"></EditTextPreference>
 </PreferenceScreen>
