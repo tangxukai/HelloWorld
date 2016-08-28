@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">HelloWorld</string>
     <string name="hello">Xukai, Welcome!</string>
+    <string name="titleStatus">Status Update</string>
+    <string name="hintText">Please enter your 140 chars status.</string>
+    <string name="buttonUpdate">Update</string>
+    <string name="title_activity_status2">StatusActivity2</string>
 </resources>
