@@ -23,6 +23,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_status2"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".PrefsActivity"
+            android:label="@string/titlePrefs" />
     </application>
 
 </manifest>
