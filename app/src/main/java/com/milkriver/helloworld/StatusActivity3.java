@@ -26,7 +26,7 @@ import winterwell.jtwitter.Status;
 import winterwell.jtwitter.Twitter;
 import winterwell.jtwitter.TwitterException;
 
-public class StatusActivity2 extends AppCompatActivity implements OnClickListener, TextWatcher, SharedPreferences.OnSharedPreferenceChangeListener {
+public class StatusActivity3 extends AppCompatActivity implements OnClickListener, TextWatcher {
     private static final String TAG = "StatusActivity";
     EditText editText;
     Button updateButton;
@@ -44,6 +44,12 @@ public class StatusActivity2 extends AppCompatActivity implements OnClickListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.itemServiceStart:
+                startService(new Intent(this, UpdaterService2.class));
+                break;
+            case R.id.itemServiceStop:
+                stopService(new Intent(this, UpdaterService2.class));
+                break;
             case R.id.itemPrefs:
                 startActivity(new Intent(this, PrefsActivity.class));
                 break;
@@ -66,9 +72,6 @@ public class StatusActivity2 extends AppCompatActivity implements OnClickListene
         textCount.setTextColor(Color.GREEN);
 
         editText.addTextChangedListener(this);
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -94,17 +97,13 @@ public class StatusActivity2 extends AppCompatActivity implements OnClickListene
         }
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        twitter = null;
-    }
 
     class PostToTwitter extends AsyncTask<String, Integer, String> {
 
         @Override
         protected String doInBackground(String... statuses) {
             try{
-                winterwell.jtwitter.Status status = getTwitter().updateStatus(statuses[0]);
+                winterwell.jtwitter.Status status = ((YambaApplication)getApplication()).getTwitter().updateStatus(statuses[0]);
                 return status.text;
             } catch(TwitterException e) {
                 Log.e(TAG, e.toString());
@@ -120,7 +119,7 @@ public class StatusActivity2 extends AppCompatActivity implements OnClickListene
 
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(StatusActivity2.this, result, Toast.LENGTH_LONG).show();
+            Toast.makeText(StatusActivity3.this, result, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -129,19 +128,6 @@ public class StatusActivity2 extends AppCompatActivity implements OnClickListene
         String status = editText.getText().toString();
         new PostToTwitter().execute(status);
         Log.d(TAG, "onClicked");
-    }
-
-    private Twitter getTwitter() {
-        if (null == twitter) {
-            String username, password, apiRoot;
-            username = prefs.getString("username", "");
-            password = prefs.getString("password", "");
-            apiRoot = prefs.getString("apiRoot", "http://identi.ca/api");
-
-            twitter = new Twitter(username, password);
-            twitter.setAPIRootUrl(apiRoot);
-        }
-        return twitter;
     }
 }
 
