@@ -18,4 +18,5 @@
 
     <string name="titleServiceStart">start</string>
     <string name="titleServiceStop">stop</string>
+    <string name="title">Where Am I?</string>
 </resources>
